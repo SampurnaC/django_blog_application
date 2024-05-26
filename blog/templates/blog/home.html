@@ -1,7 +1,7 @@
 {% extends 'blog/base.html' %}
 {% load breakpoint %}
 {% block content %}
-    <h1>This is a home page</h1>
+    <h1>All Posts</h1>
     {% for post in posts %}
     <article class="media">
         <div class="media-body">
@@ -15,4 +15,19 @@
         </div>
       </article>
     {% endfor %}
+
 {% endblock content %}
+
+
+{% block content1 %}
+  <ul class="list-group">
+    {% for post in featured_posts %}
+    <li class="list-group-item list-group-item-light">
+      <p>Posted By: {{post.author.username}}</p>
+      <a class="mr-2" href="{% url 'blog-show' post.id %}">{{ post.title }}</a>
+      <p>{{ post.content }}</p>
+    </li>
+    <br>
+    {% endfor %}
+  </ul>
+{% endblock content1 %}

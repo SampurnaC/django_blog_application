@@ -4,9 +4,11 @@ from .models import Post
 from .forms import BlogCreateForm
 
 def home(request):
-    posts = Post.objects.all()
+    posts = Post.objects.all().order_by('-id')
+    featured_posts = Post.objects.filter(is_featured=True)[:2]
+    
     context = {
-        'posts': posts
+        'posts': posts, 'featured_posts': featured_posts
     }
     return render(request, 'blog/home.html',context)
 

@@ -9,5 +9,7 @@ def home(request):
     }
     return render(request, 'blog/home.html',context)
 
-def about(request):
-    return render(request, 'blog/about.html')
+def show(request,id):
+    post = Post.objects.get(id=id)
+    context={'post': post}
+    return render(request, 'blog/show.html', context)

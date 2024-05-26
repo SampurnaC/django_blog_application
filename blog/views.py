@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from .models import Post
 from .forms import BlogCreateForm
@@ -14,6 +15,7 @@ def show(request,id):
     context={'post': post}
     return render(request, 'blog/show.html', context)
 
+@login_required
 def create(request):
     if request.method == "POST":
         form = BlogCreateForm(request.POST)

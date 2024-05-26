@@ -8,7 +8,7 @@ class Post(models.Model):
     content=models.TextField()
     date_posted=models.DateTimeField(default=timezone.now)
     author=models.ForeignKey(User, on_delete=models.CASCADE)
+    is_featured=models.BooleanField("IS FEATURED", default=False)
 
-    class Meta:
-        def __str__(self):
-            return self.title
+    def __str__(self):
+        return self.title

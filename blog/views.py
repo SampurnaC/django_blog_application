@@ -1,6 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
-from .models import Post
+from .models import Post, Comment
 from .forms import BlogCreateForm, CommentForm
 
 def home(request):
@@ -14,7 +14,17 @@ def home(request):
 
 def show(request,id):
     post = Post.objects.get(id=id)
-    context={'post': post}
+    comments = post.comments.all().order_by('-id')
+    if request.method == "POST":
+        comment_form = CommentForm(request.POST)
+        if comment_form.is_valid():
+            comment_form.instance.comment_user=request.user
+            comment_form.instance.post=post
+            comment_form.save()
+            return redirect('/')
+    else:
+        comment_form = CommentForm()    
+    context={'comment_form': comment_form, 'comments': comments, 'post': post}
     return render(request, 'blog/show.html', context)
 
 @login_required
@@ -47,17 +57,18 @@ def update(request, id):
     return render(request, 'blog/update.html', context)
 
 @login_required
-def create_comment(request, post_id):
-    post = Post.objects.get(id=post_id)
-    comments = post.comments.all().order_by('-id')
+def update_comment(request,post_id, comment_id):
+    post=Post.objects.get(id=post_id)
+    comment = Comment.objects.get(id=comment_id)
+    if not comment.comment_user == request.user:
+        return redirect('/')
+        
     if request.method == "POST":
-        comment_form = CommentForm(request.POST)
+        comment_form = CommentForm(request.POST, instance=comment)
         if comment_form.is_valid():
-            comment_form.instance.comment_user=request.user
-            comment_form.instance.post=post
             comment_form.save()
             return redirect('/')
     else:
-        comment_form = CommentForm()    
-    context={'comment_form': comment_form, 'comments': comments}
-    return render(request, 'blog/add_comment.html', context)
+        comment_form = CommentForm(instance=comment)    
+    context={'comment_form': comment_form, 'comment': comment, 'post': post}
+    return render(request, 'blog/update_comment.html', context)

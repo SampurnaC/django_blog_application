@@ -49,14 +49,15 @@ def update(request, id):
 @login_required
 def create_comment(request, post_id):
     post = Post.objects.get(id=post_id)
+    comments = post.comments.all().order_by('-id')
     if request.method == "POST":
         comment_form = CommentForm(request.POST)
         if comment_form.is_valid():
-            comment_form.instance.comment_user=post.author
+            comment_form.instance.comment_user=request.user
             comment_form.instance.post=post
             comment_form.save()
             return redirect('/')
     else:
         comment_form = CommentForm()    
-    context={'comment_form': comment_form}
+    context={'comment_form': comment_form, 'comments': comments}
     return render(request, 'blog/add_comment.html', context)

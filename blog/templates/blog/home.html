@@ -11,7 +11,8 @@
             <a class="mr-2" href="{% url 'blog-show' post.id %}">{{ post.title }}</a>
           </div>
           <h2>{{ post.content }}</h2>
-          
+          <a href="{% url 'create-comment' post.id%}">Add a Comment</a>
+          {{post.comments.count}}Comments
         </div>
       </article>
     {% endfor %}

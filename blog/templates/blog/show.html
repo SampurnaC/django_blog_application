@@ -1,1 +1,26 @@
-hi baby {{post.title}}
+{% extends 'blog/base.html' %}
+{% load static %}
+
+{% block content %}
+    <link rel="stylesheet" type="text/css" href="{% static 'blog/main.css' %}">
+
+    <h1 class="text-center">{{post.title}}</h1>
+    <p>{{post.content}}</p>
+    <small>Posted By {{post.author}}</small> <br>
+    <small>Posted On {{post.date_posted}}</small><br><br>
+   
+
+    <form action="" method="POST">
+        {% csrf_token %}
+        {{comment_form.as_p}}
+        <button type="submit" class="btn btn-dark btn-sm">Add a Comment</button>
+    </form>
+    
+    {% for comment in comments %}
+        <ul>
+            {% if comment.comment_user == request.user %}
+                <a href="{% url 'update-comment' post.id comment.id %}"><li>{{comment.body}}</li></a>
+            {% endif %}
+        </ul>
+    {% endfor %}
+{% endblock content %}

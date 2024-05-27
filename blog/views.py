@@ -1,7 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from .models import Post
-from .forms import BlogCreateForm
+from .forms import BlogCreateForm, CommentForm
 
 def home(request):
     posts = Post.objects.all().order_by('-id')
@@ -45,3 +45,18 @@ def update(request, id):
         form = BlogCreateForm(instance=post)
     context={'post': post, 'form': form}
     return render(request, 'blog/update.html', context)
+
+@login_required
+def create_comment(request, post_id):
+    post = Post.objects.get(id=post_id)
+    if request.method == "POST":
+        comment_form = CommentForm(request.POST)
+        if comment_form.is_valid():
+            comment_form.instance.comment_user=post.author
+            comment_form.instance.post=post
+            comment_form.save()
+            return redirect('/')
+    else:
+        comment_form = CommentForm()    
+    context={'comment_form': comment_form}
+    return render(request, 'blog/add_comment.html', context)

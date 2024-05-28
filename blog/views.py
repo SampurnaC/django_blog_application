@@ -67,7 +67,7 @@ def update_comment(request,post_id, comment_id):
         comment_form = CommentForm(request.POST, instance=comment)
         if comment_form.is_valid():
             comment_form.save()
-            return redirect('/')
+            return redirect('blog:blog-show', post.id)
     else:
         comment_form = CommentForm(instance=comment)    
     context={'comment_form': comment_form, 'comment': comment, 'post': post}

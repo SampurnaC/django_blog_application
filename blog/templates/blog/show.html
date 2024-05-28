@@ -19,7 +19,7 @@
     {% for comment in comments %}
         <ul>
             {% if comment.comment_user == request.user %}
-                <a href="{% url 'update-comment' post.id comment.id %}"><li>{{comment.body}}</li></a>
+                <a href="{% url 'blog:update-comment' post.id comment.id %}"><li>{{comment.body}}</li></a>
             {% endif %}
         </ul>
     {% endfor %}

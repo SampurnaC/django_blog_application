@@ -1,8 +1,10 @@
 {% extends 'blog/base.html' %}
 {% block content %}
-<form action="" method="POST">
-    {% csrf_token %}
-    {{form.as_p}}
-    <button type="submit">Create Post</button>
-</form>
+<div class="container mt-3">
+    <form action="" method="POST">
+        {% csrf_token %}
+        {{form.as_p}}
+        <button type="submit" class="btn btn-dark">Create Post</button>
+    </form>
+</div>
 {% endblock content %}

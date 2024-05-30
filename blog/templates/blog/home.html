@@ -1,19 +1,24 @@
 {% extends 'blog/base.html' %}
+{% load static %}
 {% load breakpoint %}
 {% block content %}
-    <h1>All Posts</h1>
+    <link rel="stylesheet" type="text/css" href="{% static 'blog/home.css' %}">
+    <h3 class="text-center">All Blogs</h3>
+    <hr>
     {% for post in posts %}
-    <article class="media">
-        <div class="media-body">
-          <div class="article-metadata">
-            <img src="{{post.author.profile.image.url}}" alt="" class="img-thumbnail" style="max-height: 50px; max-width: 50px;">
-            <p>Posted By: {{post.author.username}}</p>
-            <a class="mr-2" href="{% url 'blog:blog-show' post.id %}">{{ post.title }}</a>
-          </div>
-          {{post.comments.count}}Comments
-          <h2>{{ post.content }}</h2>
-        </div>
-      </article>
+      <div class="row">
+      <div class="col-md-6">
+          <!-- <img src="{{post.author.profile.image.url}}" alt="" class="img-thumbnail" style="max-height: 50px; max-width: 50px;"> -->
+          <a class="mr-2 post-title" href="{% url 'blog:blog-show' post.id %}">{{ post.title }}</a>
+          <p>{{ post.content }}</p>
+          
+      </div>
+      <div class="col-md-2">
+          <p class="text-end">Author:{{post.author.username}}</p>
+          <p class="text-end">{{post.comments.count}}Comments</p>
+      </div>
+    </div>
+    <hr>
     {% endfor %}
 
 {% endblock content %}
@@ -25,7 +30,7 @@
     {% for post in featured_posts %}
     <li class="list-group-item list-group-item-light">
       <p>Posted By: {{post.author.username}}</p>
-      <a class="mr-2" href="{% url 'blog:blog-show' post.id %}">{{ post.title }}</a>
+      <a class="mr-2 post-title" href="{% url 'blog:blog-show' post.id %}">{{ post.title }}</a>
       <p>{{ post.content }}</p>
     </li>
     <br>

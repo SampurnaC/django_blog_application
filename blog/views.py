@@ -15,7 +15,7 @@ def home(request):
 def show(request,id):
     post = Post.objects.get(id=id)
     comments = post.comments.all().order_by('-id')
-    if request.method == "POST":
+    if request.method == "POST" and request.user.is_authenticated:
         comment_form = CommentForm(request.POST)
         if comment_form.is_valid():
             comment_form.instance.comment_user=request.user

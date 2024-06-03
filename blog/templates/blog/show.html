@@ -24,3 +24,17 @@
         </ul>
     {% endfor %}
 {% endblock content %}
+
+{% block content2 %}
+    <h3>Related Blogs</h3>
+    <ul class="list-group">
+        {% for post in related_posts %}
+        <li class="list-group-item list-group-item-light">
+          <p>Posted By: {{post.author.username}}</p>
+          <a class="mr-2 post-title" href="{% url 'blog:blog-show' post.id %}">{{ post.title }}</a>
+          <p>{{ post.content }}</p>
+        </li>
+        <br>
+        {% endfor %}
+      </ul>
+{% endblock %}

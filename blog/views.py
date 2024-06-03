@@ -14,6 +14,8 @@ def home(request):
 
 def show(request,id):
     post = Post.objects.get(id=id)
+    related_posts = Post.objects.all().exclude(id=id)[:3]
+    
     comments = post.comments.all().order_by('-id')
     if request.method == "POST" and request.user.is_authenticated:
         comment_form = CommentForm(request.POST)
@@ -24,7 +26,7 @@ def show(request,id):
             return redirect('/')
     else:
         comment_form = CommentForm()    
-    context={'comment_form': comment_form, 'comments': comments, 'post': post}
+    context={'comment_form': comment_form, 'comments': comments, 'post': post, 'related_posts': related_posts}
     return render(request, 'blog/show.html', context)
 
 @login_required

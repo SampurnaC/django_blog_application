@@ -25,7 +25,7 @@
 
 
 {% block content1 %}
-  <h3>Featured Blogs</h3>
+<a href="{% url 'blog:blog-featured' %}"><h3 class="text-center post-title">Featured Blogs</h3></a>
   <ul class="list-group">
     {% for post in featured_posts %}
     <li class="list-group-item list-group-item-light">

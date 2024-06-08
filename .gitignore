@@ -8,3 +8,4 @@ core/__pycache__/settings.cpython-38.pyc
 users/__pycache__/
 media/
 users/migrations/__pycache__/
+dump.rdb

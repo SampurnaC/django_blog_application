@@ -1,11 +1,15 @@
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from .models import Post, Comment
 from .forms import BlogCreateForm, CommentForm
 from .documents import PostDocument
 from elasticsearch_dsl.query import MultiMatch
- 
+from .tasks import post_count
+
 def home(request):
+    post_count.delay()
+    
     featured_posts = Post.objects.filter(is_featured=True)[:5]
     
     if 'q' in request.GET:
@@ -17,7 +21,7 @@ def home(request):
     context = {
         'posts': posts
     }
-    
+
     context = {
         'posts': posts, 'featured_posts': featured_posts
     }

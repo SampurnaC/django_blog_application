@@ -1,4 +1,4 @@
-a:link { 
+/* a:link { 
   text-decoration: none; 
 } 
 a:visited { 
@@ -9,7 +9,12 @@ a:hover {
 } 
 a:active { 
   text-decoration: none; 
+} */
+.post-title {
+  color: black;
+  text-decoration: underline;
 }
+
 .add-comment-btn {
   color: white !important;
 }

@@ -1,0 +1,26 @@
+{% extends 'blog/base.html' %}
+{% load static %}
+{% load breakpoint %}
+{% block content %}
+    <link rel="stylesheet" type="text/css" href="{% static 'blog/home.css' %}">
+    <h3 class="text-center">All Featured Blogs</h3>
+    <hr>
+    {% for post in featured_posts %}
+      <div class="row">
+      <div class="col-md-6">
+          <!-- <img src="{{post.author.profile.image.url}}" alt="" class="img-thumbnail" style="max-height: 50px; max-width: 50px;"> -->
+          <a class="mr-2 post-title" href="{% url 'blog:blog-show' post.id %}">{{ post.title }}</a>
+          <p>{{ post.content }}</p>
+          
+      </div>
+      <div class="col-md-2">
+          <p class="text-end">Author:{{post.author.username}}</p>
+          <p class="text-end">{{post.comments.count}}Comments</p>
+      </div>
+    </div>
+    <hr>
+    {% endfor %}
+
+{% endblock content %}
+
+

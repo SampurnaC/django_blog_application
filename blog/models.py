@@ -18,4 +18,4 @@ class Comment(models.Model):
     body=models.TextField(max_length=200)
 
     def __str__(self):
-        return f'{self.comment_user}Comment'
+        return "Comment for {}".format(self.post.title)
